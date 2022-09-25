@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		981BCA2228E09EBF00C684D1 /* PlantModel .swift in Sources */ = {isa = PBXBuildFile; fileRef = 981BCA2128E09EBF00C684D1 /* PlantModel .swift */; };
+		981BCA2628E0A7B000C684D1 /* NotificationKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 981BCA2528E0A7B000C684D1 /* NotificationKeys.swift */; };
 		98200EB728D4AC9D001126F4 /* Post.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 98200EB628D4AC9D001126F4 /* Post.storyboard */; };
 		98200EB928D4ACC9001126F4 /* Favorites.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 98200EB828D4ACC9001126F4 /* Favorites.storyboard */; };
 		98200EBB28D4AE80001126F4 /* FavoritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98200EBA28D4AE80001126F4 /* FavoritesViewController.swift */; };
@@ -29,6 +30,7 @@
 
 /* Begin PBXFileReference section */
 		981BCA2128E09EBF00C684D1 /* PlantModel .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlantModel .swift"; sourceTree = "<group>"; };
+		981BCA2528E0A7B000C684D1 /* NotificationKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationKeys.swift; sourceTree = "<group>"; };
 		98200EB628D4AC9D001126F4 /* Post.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Post.storyboard; sourceTree = "<group>"; };
 		98200EB828D4ACC9001126F4 /* Favorites.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Favorites.storyboard; sourceTree = "<group>"; };
 		98200EBA28D4AE80001126F4 /* FavoritesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesViewController.swift; sourceTree = "<group>"; };
@@ -110,6 +112,14 @@
 			path = StoryBoards;
 			sourceTree = "<group>";
 		};
+		981BCA2428E0A79000C684D1 /* General */ = {
+			isa = PBXGroup;
+			children = (
+				981BCA2528E0A7B000C684D1 /* NotificationKeys.swift */,
+			);
+			path = General;
+			sourceTree = "<group>";
+		};
 		9831AE9128C4C7200058A86A = {
 			isa = PBXGroup;
 			children = (
@@ -129,6 +139,7 @@
 		9831AE9C28C4C7200058A86A /* BotanyApp */ = {
 			isa = PBXGroup;
 			children = (
+				981BCA2428E0A79000C684D1 /* General */,
 				981BCA2328E09F9800C684D1 /* StoryBoards */,
 				981BCA2028E09E8500C684D1 /* Models */,
 				981BCA1F28E09E5100C684D1 /* Views */,
@@ -216,6 +227,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				981BCA2628E0A7B000C684D1 /* NotificationKeys.swift in Sources */,
 				989DB63528C773E80060BEFC /* AddPlantViewController.swift in Sources */,
 				987D315128DB8B6C00A72C4B /* FavoriteTableViewCell.swift in Sources */,
 				9831AEB228C4C9CE0058A86A /* PlantViewCell.swift in Sources */,

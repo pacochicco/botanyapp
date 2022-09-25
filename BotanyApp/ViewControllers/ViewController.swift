@@ -9,7 +9,6 @@ import UIKit
 
 
 
-let reloadNotificationKey = "com.First.BotanyApp.Reload"
 
 
 
