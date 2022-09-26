@@ -17,6 +17,7 @@ class ViewController: UIViewController {
     var plants:[PlantModel] {
         return DataModel.shared.plants
     }
+    
 
     @IBOutlet weak var collectionView: UICollectionView!
     override func viewDidLoad() {
@@ -39,6 +40,12 @@ class ViewController: UIViewController {
     @objc func reloadCollectionView(_ notification : NSNotification){
         collectionView.reloadData()
     }
+}
+    
+
+
+func sortByFavorites(){
+    
 }
 
 

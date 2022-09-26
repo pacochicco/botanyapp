@@ -17,5 +17,13 @@ class DataModel {
         
     }
     
-    
-}
+    func sortByDate(){
+        plants.sort{
+            $0.date < $1.date
+        }
+    }
+    func sortByFavorite(){
+       
+        }
+    }
+
