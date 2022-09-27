@@ -17,7 +17,7 @@ class ViewController: UIViewController {
     var plants:[PlantModel] {
         return DataModel.shared.plants
     }
-    
+    var sort = false
 
     @IBOutlet weak var collectionView: UICollectionView!
     override func viewDidLoad() {
@@ -38,9 +38,25 @@ class ViewController: UIViewController {
     }
     
     @objc func reloadCollectionView(_ notification : NSNotification){
+        if sort{
+            DataModel.shared.sortByFavorite()
+        } else {
+            DataModel.shared.sortByDate()
+        }
         collectionView.reloadData()
     }
-    @IBAction func SortSegmentedControl(_ sender: Any) {
+    
+    @IBAction func SortSegmentedControl(_ sender: UISegmentedControl) {
+        if sender.selectedSegmentIndex == 0{
+            sort = false
+            DataModel.shared.sortByDate()
+            collectionView.reloadData()
+        }
+        else if sender.selectedSegmentIndex == 1{
+            sort = true
+            DataModel.shared.sortByFavorite()
+            collectionView.reloadData()
+        }
     }
 }
     
