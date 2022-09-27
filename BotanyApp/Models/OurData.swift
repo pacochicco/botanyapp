@@ -23,7 +23,9 @@ class DataModel {
         }
     }
     func sortByFavorite(){
-       
+        plants.sort{
+            $0.favorite && !$1.favorite
+        }
         }
     }
 

@@ -81,6 +81,9 @@
                                     <segment title="Order By Date"/>
                                     <segment title="Order By Favorites"/>
                                 </segments>
+                                <connections>
+                                    <action selector="SortSegmentedControl:" destination="BYZ-38-t0r" eventType="valueChanged" id="YHE-Ns-AMx"/>
+                                </connections>
                             </segmentedControl>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>

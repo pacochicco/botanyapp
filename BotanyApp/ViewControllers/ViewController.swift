@@ -40,14 +40,10 @@ class ViewController: UIViewController {
     @objc func reloadCollectionView(_ notification : NSNotification){
         collectionView.reloadData()
     }
+    @IBAction func SortSegmentedControl(_ sender: Any) {
+    }
 }
     
-
-
-func sortByFavorites(){
-    
-}
-
 
 
 extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate , UICollectionViewDelegateFlowLayout{
