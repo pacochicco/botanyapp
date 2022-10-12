@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>695526352422-6c224qbte7q7k76bmr2k0ddelg4r2ksr.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.695526352422-6c224qbte7q7k76bmr2k0ddelg4r2ksr</string>
+	<key>API_KEY</key>
+	<string>AIzaSyC2lboSBNDJlsVXG8LCQSn6vHYmIduNTRY</string>
+	<key>GCM_SENDER_ID</key>
+	<string>695526352422</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>First.BotanyApp</string>
+	<key>PROJECT_ID</key>
+	<string>botany-app-4cf65</string>
+	<key>STORAGE_BUCKET</key>
+	<string>botany-app-4cf65.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:695526352422:ios:182d7722b552a2522968e7</string>
+</dict>
+</plist>
