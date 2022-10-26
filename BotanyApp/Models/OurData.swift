@@ -26,6 +26,6 @@ class DataModel {
         plants.sort{
             $0.favorite && !$1.favorite
         }
-        }
+    }
     }
 

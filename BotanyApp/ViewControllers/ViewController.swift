@@ -6,17 +6,13 @@
 //
 
 import UIKit
-
-
-
-
+import FirebaseDatabase
+import SDWebImage
 
 
 class ViewController: UIViewController {
     
-    var plants:[PlantModel] {
-        return DataModel.shared.plants
-    }
+    var plants:[PlantModel] = []
     var sort = false
 
     @IBOutlet weak var collectionView: UICollectionView!
@@ -26,7 +22,50 @@ class ViewController: UIViewController {
         collectionView.dataSource = self
         NotificationCenter.default.addObserver(self, selector: #selector(reloadCollectionView(_:)), name: Notification.Name(reloadNotificationKey), object: nil)
         
-
+       
+        PlantModel.collection.observe(.value) { snapshot in
+            self.plants.removeAll()
+            guard let snapshot = snapshot.value as? [String : Any] else {
+                return
+            }
+            for snap in snapshot{
+                guard let plantValue = snap.value as? [String:Any] else{
+                    continue
+                }
+                guard let plant = PlantModel(key: snap.key, value: plantValue) else{
+                    continue
+                }
+                self.plants.append(plant)
+            }
+            if !self.sort {
+                self.sortByDate()
+            }else{
+                self.sortByFavorite()
+            }
+            self.collectionView.reloadData()
+        }
+        
+//        PlantModel.collection.observe(DataEventType.value) { snapshot in
+//
+//            guard let plant = PlantModel(snapshot: snapshot) else{
+//                return
+//            }
+//            self.plants.append(plant)
+//            self.collectionView.reloadData()
+//        }
+//
+//
+//
+   }
+    func sortByDate(){
+        plants.sort{
+            $0.date < $1.date
+        }
+    }
+    func sortByFavorite(){
+        plants.sort{
+            $0.favorite && !$1.favorite
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -38,11 +77,12 @@ class ViewController: UIViewController {
             }
     }
     
+    
     @objc func reloadCollectionView(_ notification : NSNotification){
         if sort{
-            DataModel.shared.sortByFavorite()
+            sortByFavorite()
         } else {
-            DataModel.shared.sortByDate()
+            sortByDate()
         }
         collectionView.reloadData()
     }
@@ -50,12 +90,12 @@ class ViewController: UIViewController {
     @IBAction func SortSegmentedControl(_ sender: UISegmentedControl) {
         if sender.selectedSegmentIndex == 0{
             sort = false
-            DataModel.shared.sortByDate()
+            sortByDate()
             collectionView.reloadData()
         }
         else if sender.selectedSegmentIndex == 1{
             sort = true
-            DataModel.shared.sortByFavorite()
+            sortByFavorite()
             collectionView.reloadData()
         }
     }
@@ -70,7 +110,7 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate ,
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let plant = plants[indexPath.row]
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PlantViewCell",for: indexPath) as! PlantViewCell
-        cell.plantImageView.image = plant.image
+        cell.plantImageView.sd_setImage(with: plant.image) 
         cell.plantNameLabel.text = plant.title
         cell.plant = plant
         if plant.favorite{

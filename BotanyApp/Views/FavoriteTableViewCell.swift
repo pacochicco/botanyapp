@@ -30,13 +30,8 @@ class FavoriteTableViewCell: UITableViewCell {
         guard let plant = plant else {
             return
         }
-        plant.favorite = false
-        for (index,selectedPlant) in DataModel.shared.selectedPlants.enumerated(){
-            if selectedPlant.id == plant.id{
-                DataModel.shared.selectedPlants.remove(at: index)
-            }
-        }
-        delegate?.reloadData()
+        PlantModel.collection.child(plant.id).updateChildValues(["isFavorite": nil])
+
     }
 }
 

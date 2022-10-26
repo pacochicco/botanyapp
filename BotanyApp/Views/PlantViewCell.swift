@@ -25,13 +25,11 @@ class PlantViewCell: UICollectionViewCell {
        // let favoriteImage = plant?.favorite == true ? UIImage(systemName: "heart.filled") : UIImage(systemName: "heart")
         if plant.favorite {
             favoriteButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-            DataModel.shared.selectedPlants.append(plant)
+            PlantModel.collection.child(plant.id).updateChildValues(["isFavorite":true])
         }
         else {
             favoriteButton.setImage(UIImage(systemName: "heart"), for: .normal)
-            DataModel.shared.selectedPlants.removeAll { plantModel in
-                plantModel.id == plant.id 
-            }
+            PlantModel.collection.child(plant.id).updateChildValues(["isFavorite": nil])
         }
     }
     

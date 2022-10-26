@@ -5,7 +5,13 @@
 //  Created by Saidac Alexandru on 15.09.2022.
 //
 
+
+
+
+
 import UIKit
+import SDWebImage
+import Firebase
 
 protocol PlantDetailDelegate:AnyObject{
     func updatePlant(plant:PlantModel)
@@ -20,7 +26,7 @@ class PlantDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         if let plant = plant{
-            plantImageView.image = plant.image
+            plantImageView.sd_setImage(with: plant.image)
             titleLabel.text = plant.title
             notesLabel.text = plant.notes
         }
@@ -39,14 +45,15 @@ class PlantDetailViewController: UIViewController {
         let alert = UIAlertController(title: "Confirm Delete", message: "Are you sure you want to delete?", preferredStyle: .alert)
         let action = UIAlertAction(title: "Delete", style: .destructive) { _ in
             if let plant = self.plant{
-                DataModel.shared.plants.removeAll{
-                    plantModel in
-                        plantModel.id == plant.id
-                }
-                DataModel.shared.selectedPlants.removeAll { plantModel in
-                    plantModel.id == plant.id
-                }
-                NotificationCenter.default.post(name:Notification.Name(reloadNotificationKey), object: self)
+                PlantModel.collection.child(plant.id).removeValue()
+//                DataModel.shared.plants.removeAll{
+//                    plantModel in
+//                        plantModel.id == plant.id
+//                }
+//                DataModel.shared.selectedPlants.removeAll { plantModel in
+//                    plantModel.id == plant.id
+//                }
+//                NotificationCenter.default.post(name:Notification.Name(reloadNotificationKey), object: self)
                 self.navigationController?.popViewController(animated: true)
             }
         }
@@ -84,19 +91,19 @@ class PlantDetailViewController: UIViewController {
 extension PlantDetailViewController:PlantDetailDelegate{
     func updatePlant(plant:PlantModel){
         self.plant = plant
-        plantImageView.image = plant.image
+        plantImageView.sd_setImage(with: plant.image)
         titleLabel.text = plant.title
         notesLabel.text = plant.notes
-        guard let index = index else{
-            return
-        }
-        DataModel.shared.plants[index] = plant
-        let selectedPlantIndex = DataModel.shared.selectedPlants.firstIndex { plantModel in
-            plantModel.id == self.plant!.id
-        }
-        if let selectedPlantIndex = selectedPlantIndex {
-            DataModel.shared.selectedPlants[selectedPlantIndex] = plant
-        }
-        NotificationCenter.default.post(name: Notification.Name(reloadNotificationKey), object: self)
+//        guard let index = index else{
+//            return
+//        }
+//        DataModel.shared.plants[index] = plant
+//        let selectedPlantIndex = DataModel.shared.selectedPlants.firstIndex { plantModel in
+//            plantModel.id == self.plant!.id
+//        }
+//        if let selectedPlantIndex = selectedPlantIndex {
+//            DataModel.shared.selectedPlants[selectedPlantIndex] = plant
+//        }
+//        NotificationCenter.default.post(name: Notification.Name(reloadNotificationKey), object: self)
     }
 }

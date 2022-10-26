@@ -4,10 +4,19 @@
 //
 //  Created by Saidac Alexandru on 06.09.2022.
 //
+// 1. The objective is to first upload the image and then to record the plant in the database
+// 2. We convert the UIImage into a jpeg
+// 3. Reveal the progress bar and the progress background
+// 4. We create an image ID and an image Name
+// 5. We create a storage reference with the image name
+// 6. We create the uploadTask
+// 7. We create an obsever on the upload task to check the progress bar progress
+// 8. When the upload succeds then we store the url as a string in Firebase 
+
 
 import UIKit
-
-
+import Firebase
+import FirebaseStorage
 
 class AddPlantViewController: UIViewController{
 
@@ -17,9 +26,14 @@ class AddPlantViewController: UIViewController{
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var notesTextView: UITextView!
     @IBOutlet weak var titleCharacterCount: UILabel!
+    @IBOutlet weak var progressBarView: UIProgressView!
     @IBOutlet weak var submitOutlet: UIButton!
+    @IBOutlet weak var progressBackgroundView: UIView!
+    var uploadTask: StorageUploadTask?
+    
+    
     var selectedImage: UIImage?
-    var plantToEdit : PlantModel?
+   // var plantToEdit : PlantModel?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,15 +42,15 @@ class AddPlantViewController: UIViewController{
         PlantView.addGestureRecognizer(imageViewTap)
         PlantView.isUserInteractionEnabled = true
         titleTextField.addTarget(self , action: #selector(titleCountUpdate), for: .editingChanged)
-        if let plantToEdit = plantToEdit {
-            plantImageView.image = plantToEdit.image
-            titleTextField.text = plantToEdit.title
-            notesTextView.text = plantToEdit.notes
-            selectedImage = plantToEdit.image
-            tapToAddImageLabel.isHidden = true
-            plantImageView.contentMode = .scaleAspectFill
-            titleCountUpdate()
-        }
+//        if let plantToEdit = plantToEdit {
+//            plantImageView.image = plantToEdit.image
+//            titleTextField.text = plantToEdit.title
+//            notesTextView.text = plantToEdit.notes
+//            selectedImage = plantToEdit.image
+//            tapToAddImageLabel.isHidden = true
+//            plantImageView.contentMode = .scaleAspectFill
+//            titleCountUpdate()
+//        }
     }
     
     func setUpView(){
@@ -50,7 +64,45 @@ class AddPlantViewController: UIViewController{
         PlantView.layer.masksToBounds = true
         PlantView.layer.cornerRadius = PlantView.frame.height/2
         plantImageView.layer.cornerRadius = plantImageView.frame.height/2
+        progressBarView.isHidden = true
+        progressBackgroundView.isHidden = true
     }
+    
+    func upload(image:UIImage, title:String , notes:String){
+        guard let imageData = image.jpegData(compressionQuality: 0.7) else{
+            print("couldnt not convert image to jpeg")
+            return
+        }
+        progressBarView.progress = 0
+        progressBarView.isHidden = false
+        progressBackgroundView.isHidden = false
+        let imageID = UUID().uuidString.lowercased().replacingOccurrences(of: "-", with: "_")
+        let imageName = imageID + ".jpeg"
+        let storageRef = Storage.storage().reference(withPath: imageName)
+        let metadata = StorageMetadata()
+        metadata.contentType = "image/jpg"
+        uploadTask = storageRef.putData(imageData, metadata: metadata, completion: { metadata, error in
+            self.progressBarView.isHidden = true
+            self.progressBackgroundView.isHidden = true
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            }
+            storageRef.downloadURL { url, error in
+                if let url = url {
+                    Database.database().reference().child("plants").childByAutoId().setValue(["title": title, "notes":notes , "image": url.absoluteString, "createdAt": Date().timeIntervalSince1970])
+                    self.dismiss(animated: true)
+                }
+            }
+        })
+        uploadTask!.observe(.progress) { snapshot in
+            let currentProgress = Double(snapshot.progress!.completedUnitCount)
+            let totalProgress = Double(snapshot.progress!.totalUnitCount)
+            let percentComplete = Float(100.0 * currentProgress / totalProgress)
+            self.progressBarView.setProgress(percentComplete, animated: true)
+        }
+    }
+    
     
     @objc func plantViewTapped(){
         
@@ -128,10 +180,13 @@ class AddPlantViewController: UIViewController{
             presentErrorAlert(title: "Notes error", message: "The notes must have more than 5 characters")
             return
         }
-        let plant = PlantModel(image: selectedImage, title: titleText, notes: notesText)
-        DataModel.shared.plants.append(plant)
-        NotificationCenter.default.post(name: Notification.Name(reloadNotificationKey), object: self)
-        dismiss(animated: true)
+       // let plant = PlantModel(image: selectedImage, title: titleText, notes: notesText)
+       // DataModel.shared.plants.append(plant)
+        
+        upload(image: selectedImage, title: titleText, notes: notesText)
+        
+    NotificationCenter.default.post(name: Notification.Name(reloadNotificationKey), object: self)
+       dismiss(animated: true)
     }
 }
 //extension AddPlantViewController: UITextFieldDelegate{
